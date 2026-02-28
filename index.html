@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Is It? - 분실물 위치 기록 앱</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent-primary: #6366f1;
+            --accent-secondary: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Glass Card Utility */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            margin-bottom: 2rem;
+        }
+
+        /* Form Styles */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            padding-left: 4px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+
+        button.primary-btn {
+            width: 100%;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button.primary-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        button.primary-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Search Section */
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-container input {
+            padding-left: 2.8rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* List Styles */
+        .item-list {
+            list-style: none;
+        }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.4s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .item-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .item-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .item-info .location {
+            color: #818cf8;
+            font-weight: 500;
+        }
+
+        .delete-btn {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            padding: 0.6rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        #toast.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 0.5rem; }
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Where Is It?</h1>
+            <p>물건을 찾은 장소를 기록하세요</p>
+        </header>
+
+        <section class="glass-card">
+            <div class="input-group">
+                <label for="item-name">찾은 물건</label>
+                <input type="text" id="item-name" placeholder="예: 안경, 차 키, 지갑">
+            </div>
+            <div class="input-group">
+                <label for="item-location">발견 장소</label>
+                <input type="text" id="item-location" placeholder="예: 거실 소파 밑, 책상 서랍 첫 번째">
+            </div>
+            <button class="primary-btn" id="add-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                위치 저장하기
+            </button>
+        </section>
+
+        <section class="search-container">
+            <span class="search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="search-input" placeholder="물건 이름으로 찾기...">
+        </section>
+
+        <ul class="item-list" id="item-list">
+            <!-- Items will be rendered here -->
+        </ul>
+    </div>
+
+    <div id="toast">기록되었습니다!</div>
+
+    <script>
+        // Data Management
+        let items = JSON.parse(localStorage.getItem('lostItems')) || [];
+
+        const itemNameInput = document.getElementById('item-name');
+        const itemLocationInput = document.getElementById('item-location');
+        const addBtn = document.getElementById('add-btn');
+        const searchInput = document.getElementById('search-input');
+        const itemList = document.getElementById('item-list');
+        const toast = document.getElementById('toast');
+
+        function saveToStorage() {
+            localStorage.setItem('lostItems', JSON.stringify(items));
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        }
+
+        function renderItems(filter = '') {
+            itemList.innerHTML = '';
+            
+            const filteredItems = items.filter(item => 
+                item.name.toLowerCase().includes(filter.toLowerCase()) ||
+                item.location.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            if (filteredItems.length === 0) {
+                itemList.innerHTML = `
+                    <div class="empty-state">
+                        ${filter ? '검색 결과가 없습니다.' : '아직 기록된 물건이 없습니다.'}
+                    </div>
+                `;
+                return;
+            }
+
+            // Show latest first
+            [...filteredItems].reverse().forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'item-card';
+                li.innerHTML = `
+                    <div class="item-info">
+                        <h3>${item.name}</h3>
+                        <p class="location">📍 ${item.location}</p>
+                        <p>${formatDate(item.timestamp)}</p>
+                    </div>
+                    <button class="delete-btn" onclick="deleteItem('${item.id}')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                `;
+                itemList.appendChild(li);
+            });
+        }
+
+        function addItem() {
+            const name = itemNameInput.value.trim();
+            const location = itemLocationInput.value.trim();
+
+            if (!name || !location) {
+                showToast('물건 이름과 장소를 모두 입력해주세요.');
+                return;
+            }
+
+            const newItem = {
+                id: Date.now().toString(),
+                name: name,
+                location: location,
+                timestamp: new Date().toISOString()
+            };
+
+            items.push(newItem);
+            saveToStorage();
+            renderItems();
+
+            itemNameInput.value = '';
+            itemLocationInput.value = '';
+            itemNameInput.focus();
+            showToast('성공적으로 기록되었습니다!');
+        }
+
+        window.deleteItem = function(id) {
+            if (confirm('이 기록을 삭제하시겠습니까?')) {
+                items = items.filter(item => item.id !== id);
+                saveToStorage();
+                renderItems(searchInput.value);
+                showToast('삭제되었습니다.');
+            }
+        };
+
+        // Event Listeners
+        addBtn.addEventListener('click', addItem);
+        
+        itemNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') itemLocationInput.focus();
+        });
+
+        itemLocationInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addItem();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            renderItems(e.target.value);
+        });
+
+        // Initial Render
+        renderItems();
+    </script>
+</body>
+</html>

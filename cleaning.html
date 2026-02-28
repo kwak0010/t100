@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘 딱 5분만 - 게으른 청소 매니저</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Noto+Sans+KR:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --mint-primary: #5eead4;
+            --mint-dark: #0d9488;
+            --mint-light: #f0fdfa;
+            --sky-blue: #e0f2fe;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            background-color: var(--mint-light);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem 0;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            color: var(--mint-dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- Main Mission Card --- */
+        .mission-card {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--mint-primary);
+        }
+
+        .mission-status {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--mint-dark);
+            background: var(--mint-light);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .mission-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1.25rem;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--mint-primary);
+            color: var(--mint-dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #2dd4bf;
+            box-shadow: 0 10px 20px rgba(94, 234, 212, 0.3);
+        }
+
+        /* --- Dashboard --- */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .zone-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .zone-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.25rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .zone-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .zone-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .zone-status {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Weather Colors */
+        .status-sunny {
+            color: #f59e0b;
+        }
+
+        /* Clear */
+        .status-cloudy {
+            color: #94a3b8;
+        }
+
+        /* Needs attention */
+        .status-rainy {
+            color: #3b82f6;
+        }
+
+        /* Urgent */
+
+        /* --- Guest Mode --- */
+        .guest-mode-card {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            border-radius: 25px;
+            padding: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .guest-mode-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .guest-text h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .guest-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .guest-icon {
+            font-size: 2rem;
+        }
+
+        /* --- Modal --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 30px;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-list {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .modal-list div {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--sky-blue);
+            display: flex;
+            gap: 10px;
+        }
+
+        @keyframes confetti {
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>오늘 딱 5분만</h1>
+            <p>56평 아파트, 가볍게 관리하세요</p>
+        </header>
+
+        <section class="mission-card" id="mission-card">
+            <span class="mission-status">오늘의 미션</span>
+            <h2 class="mission-title" id="mission-title">앱을 켜셨군요!<br>미션을 눌러보세요</h2>
+            <p class="mission-desc" id="mission-desc">게으른 당신을 위해 아주 쉬운 일만 골라드릴게요.</p>
+            <button class="btn btn-primary" id="mission-btn" onclick="getNextMission()">
+                <span>🎯</span> 새로운 미션 받기
+            </button>
+        </section>
+
+        <div class="section-title">
+            <span>집안 기상도</span>
+            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">길게 눌러 청소 완료</span>
+        </div>
+
+        <div class="zone-grid" id="zone-grid">
+            <!-- Zones will be rendered here -->
+        </div>
+
+        <div class="guest-mode-card" onclick="openGuestMode()">
+            <div class="guest-text">
+                <h3>손님이 곧 도착하시나요?</h3>
+                <p>10분 긴급 청소 코스 시작하기</p>
+            </div>
+            <div class="guest-icon">🚨</div>
+        </div>
+    </div>
+
+    <!-- Guest Mode Modal -->
+    <div class="modal" id="guest-modal">
+        <div class="modal-content">
+            <h3>🚨 10분 긴급 코스</h3>
+            <div class="modal-list">
+                <div><span>1️⃣</span> 현관 앞 신발을 정리하세요.</div>
+                <div><span>2️⃣</span> 거실 소파 위 물건을 다 바구니에 넣으세요.</div>
+                <div><span>3️⃣</span> 주방 식탁 위를 한 번만 훔치세요.</div>
+                <div><span>4️⃣</span> 게스트 화장실 거울을 닦으세요.</div>
+                <div><span>5️⃣</span> 환풍기를 켜거나 향초를 피우세요.</div>
+            </div>
+            <button class="btn btn-primary" onclick="closeGuestMode()">다 했어요! (탈출)</button>
+        </div>
+    </div>
+
+    <script>
+        const zones = [
+            { id: 'living', name: '거실', icon: '🛋️', days: 3 },
+            { id: 'kitchen', name: '주방', icon: '🍳', days: 2 },
+            { id: 'room1', name: '안방', icon: '🛌', days: 5 },
+            { id: 'room2', name: '방 2', icon: '💻', days: 7 },
+            { id: 'room3', name: '방 3', icon: '🎨', days: 7 },
+            { id: 'room4', name: '방 4', icon: '🧥', days: 7 },
+            { id: 'entrance', name: '현관', icon: '👟', days: 10 }
+        ];
+
+        const missions = [
+            { title: "식탁 위 물티슈 3장", desc: "밥 먹는 곳만이라도 눈 딱 감고 쓱 닦아보세요. (예상 2분)" },
+            { title: "거실 바닥 돌돌이 10번", desc: "청소기 대신 돌돌이로 눈에 보이는 머리카락만 치워요. (예상 1분)" },
+            { title: "싱크대 물받이 비우기", desc: "이것만 비워도 주방 냄새가 달라집니다. (예상 3분)" },
+            { title: "현관 신발 정렬", desc: "집에 들어올 때 기분이라도 좋게 3컬레만 나란히 둬볼까요? (예상 1분)" },
+            { title: "소파 위 리모컨 정렬", desc: "흩어진 쿠션과 리모건만 제자리에 둬도 집이 넓어 보여요. (예상 2분)" },
+            { title: "쓰레기통 하나만 비우기", desc: "전부 말고, 가장 꽉 찬 쓰레기통 하나만 비워오세요. (예상 3분)" },
+            { title: "욕실 거울 물기 닦기", desc: "세수하고 나서 수건으로 거울 밑부분만 쓱 닦아보세요. (예상 30초)" }
+        ];
+
+        let cleaningLog = JSON.parse(localStorage.getItem('cleaningLog')) || {};
+
+        function saveLog() {
+            localStorage.setItem('cleaningLog', JSON.stringify(cleaningLog));
+        }
+
+        function getStatusWeather(lastDate, maxDays) {
+            if (!lastDate) return { icon: '🌧️', class: 'status-rainy', label: '오래됨' };
+            const diff = (Date.now() - new Date(lastDate)) / (1000 * 60 * 60 * 24);
+            if (diff < maxDays / 2) return { icon: '☀️', class: 'status-sunny', label: '맑음' };
+            if (diff < maxDays) return { icon: '☁️', class: 'status-cloudy', label: '흐림' };
+            return { icon: '🌧️', class: 'status-rainy', label: '비' };
+        }
+
+        function renderZones() {
+            const grid = document.getElementById('zone-grid');
+            grid.innerHTML = '';
+            zones.forEach(zone => {
+                const status = getStatusWeather(cleaningLog[zone.id], zone.days);
+                const card = document.createElement('div');
+                card.className = 'zone-card';
+                card.innerHTML = `
+                    <div class="zone-icon">${zone.icon}</div>
+                    <div class="zone-name">${zone.name}</div>
+                    <div class="zone-status ${status.class}">${status.icon} ${status.label}</div>
+                `;
+
+                // Double click or long press logic simplified for demo with simple click
+                card.onclick = () => {
+                    cleaningLog[zone.id] = new Date().toISOString();
+                    saveLog();
+                    renderZones();
+                    showConfetti();
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function getNextMission() {
+            const random = missions[Math.floor(Math.random() * missions.length)];
+            document.getElementById('mission-title').innerText = random.title;
+            document.getElementById('mission-desc').innerText = random.desc;
+            document.getElementById('mission-btn').innerHTML = "<span>✅</span> 다른 미션 받기";
+
+            // Interaction effect
+            const card = document.getElementById('mission-card');
+            card.style.transform = "scale(0.95)";
+            setTimeout(() => card.style.transform = "scale(1)", 150);
+        }
+
+        function openGuestMode() {
+            document.getElementById('guest-modal').style.display = 'flex';
+        }
+
+        function closeGuestMode() {
+            document.getElementById('guest-modal').style.display = 'none';
+        }
+
+        function showConfetti() {
+            for (let i = 0; i < 30; i++) {
+                const c = document.createElement('div');
+                c.style.position = 'fixed';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.top = '-10px';
+                c.style.width = '10px';
+                c.style.height = '10px';
+                c.style.backgroundColor = ['#5eead4', '#3b82f6', '#f59e0b'][Math.floor(Math.random() * 3)];
+                c.style.borderRadius = '50%';
+                c.style.zIndex = '2000';
+                c.style.animation = `confetti ${Math.random() * 2 + 1}s linear forwards`;
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 3000);
+            }
+        }
+
+        // Initial
+        renderZones();
+    </script>
+</body>
+
+</html>

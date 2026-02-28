@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>압도적 무죄 판결 - 당신을 지키는 가장 강력한 방패</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #0a0a0b;
+            --deep-charcoal: #141416;
+            --accent-gold: #d4af37;
+            --muted-gold: #b28e23;
+            --silver-gray: #e2e8f0;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --transition-primary: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--obsidian);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Noto Serif KR', serif;
+            letter-spacing: -0.05em;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Floating Emergency Button --- */
+        .emergency-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            background: linear-gradient(135deg, #cc2b5e 0%, #753a88 100%);
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition-primary);
+            width: max-content;
+        }
+
+        .emergency-btn:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 15px 40px rgba(204, 43, 94, 0.4);
+        }
+
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse-ring 1.5s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+
+            100% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                linear-gradient(to right, var(--obsidian) 40%, transparent 100%),
+                url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            background: linear-gradient(to top, var(--obsidian), transparent);
+        }
+
+        .hero-text {
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-gold);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            font-weight: 900;
+        }
+
+        .hero-text h1 span {
+            color: var(--accent-gold);
+            display: block;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* --- Success Results Cards --- */
+        #results {
+            padding: 120px 0;
+            background-color: var(--obsidian);
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .result-card {
+            background: var(--deep-charcoal);
+            padding: 3rem 2rem;
+            border: 1px solid #222;
+            position: relative;
+            transition: var(--transition-primary);
+        }
+
+        .result-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-10px);
+        }
+
+        .result-tag {
+            font-size: 0.75rem;
+            font-weight: 900;
+            background: var(--accent-gold);
+            color: var(--obsidian);
+            padding: 4px 12px;
+            position: absolute;
+            top: 0;
+            left: 2rem;
+            transform: translateY(-50%);
+        }
+
+        .result-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .result-card p {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .result-footer {
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- Specialization Section --- */
+        #specialty {
+            padding: 120px 0;
+            background: var(--deep-charcoal);
+        }
+
+        .specialty-flex {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .specialty-content {
+            flex: 1;
+        }
+
+        .specialty-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .specialty-item {
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+            border-left: 2px solid var(--accent-gold);
+        }
+
+        .specialty-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .specialty-item p {
+            color: var(--text-dim);
+        }
+
+        .stat-circle {
+            width: 300px;
+            height: 300px;
+            border: 10px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .stat-circle .number {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .stat-circle .label {
+            font-size: 1rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 100px 0 150px;
+            background: var(--obsidian);
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+        }
+
+        .footer-address {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+
+        .copyright {
+            opacity: 0.3;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+
+            .specialty-flex {
+                flex-direction: column;
+            }
+
+            .stat-circle {
+                width: 200px;
+                height: 200px;
+            }
+
+            .stat-circle .number {
+                font-size: 3.5rem;
+            }
+
+            .emergency-btn {
+                width: 90%;
+                padding: 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="tel:02-1234-5678" class="emergency-btn">
+        <div class="pulse"></div>
+        24h 긴급 형사상담: 바로연결
+    </a>
+
+    <section id="hero">
+        <div class="container">
+            <div class="hero-text">
+                <span class="badge">Sex Crimes & Criminal Defense Elite</span>
+                <h1>당신의 일상을<br>지키는 <span>압도적 방패</span></h1>
+                <p>성범죄·형사 무죄/무혐의 승소의 전설. 법률적 위기 상황에서 당신의 인생을 처음으로 돌려놓을 단 한 명의 파트너입니다.</p>
+                <a href="#results" class="cta-btn"
+                    style="color: var(--accent-gold); font-weight: 700; text-decoration: none; border: 1px solid var(--accent-gold); padding: 1rem 2rem; border-radius: 4px;">승소
+                    사례 확인하기 →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="results">
+        <div class="container">
+            <div class="section-header">
+                <p>PROVEN RECORD</p>
+                <h2>결과로 압도합니다</h2>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-tag">무죄 판결</div>
+                    <h4>강제추행 억울한 누명</h4>
+                    <p>초동 수사 단계에서의 진술 번복 유도 및 결정적 증거 확보로 1심 무죄 판결.</p>
+                    <div class="result-footer">
+                        <span>성범죄 전담팀</span>
+                        <span>Acquittal</span>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-tag">무혐의 처분</div>
+                    <h4>기업 횡령 및 배임 죄</h4>
+                    <p>복잡한 자금 흐름에 대한 정밀 분석을 통해 범죄 의도가 없음을 증명, 불송치 결정.</p>
+                    <div class="result-footer">
+                        <span>경제범죄 전담팀</span>
+                        <span>Dismissed</span>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-tag">무죄 판결</div>
+                    <h4>특수 폭행 및 상해</h4>
+                    <p>정당방위 성립 여부에 대한 법리적 다툼 끝에 무죄 이끌어냄.</p>
+                    <div class="result-footer">
+                        <span>형사 강력팀</span>
+                        <span>Acquittal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="specialty">
+        <div class="container">
+            <div class="specialty-flex">
+                <div class="stat-circle">
+                    <span class="label">Criminal Defense</span>
+                    <span class="number">98%</span>
+                    <span class="label">Success Rate</span>
+                </div>
+                <div class="specialty-content">
+                    <h2>전문분야 필승 전략</h2>
+
+                    <div class="specialty-item">
+                        <h3>성범죄 시크릿 대응</h3>
+                        <p>성범죄 사건은 '초기 대응'이 전부입니다. 당신의 억울함이 유죄로 굳어지기 전, 24시간 내에 증거를 확보하고 진술을 교정합니다.</p>
+                    </div>
+
+                    <div class="specialty-item">
+                        <h3>형사 무죄 전략</h3>
+                        <p>검찰의 논리를 뒤집는 치밀한 법리 해석. 판사의 심증을 흔드는 강력한 변론으로 최선의 결과를 약속합니다.</p>
+                    </div>
+
+                    <div class="specialty-item">
+                        <h3>냉철한 이혼/재산분할</h3>
+                        <p>감정보다는 결과에 집중합니다. 당신이 누려야 할 권리와 자산을 1원도 놓치지 않고 가져옵니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">LAW FIRM PREMIER</div>
+            <p class="footer-address">서울특별시 서초구 서초대로 321, 프리미어 빌딩 15층<br>상담예약: 02-1234-5678 (24시간 긴급대응)</p>
+            <p class="copyright">&copy; 2025 HIGH-PERFORMANCE LAWYER UNIT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.result-card, .specialty-item, .stat-circle').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(40px)";
+            el.style.transition = "all 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
